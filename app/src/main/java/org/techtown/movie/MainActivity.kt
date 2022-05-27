@@ -1,4 +1,4 @@
-package org.techtown.drawer
+package org.techtown.movie
 
 import android.os.Bundle
 import android.widget.Toast

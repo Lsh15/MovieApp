@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyDrawer</string>
+    <string name="app_name">MyMovie</string>
 
     <string name="drawer_open">열기</string>
     <string name="drawer_close">닫기</string>

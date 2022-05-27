@@ -1,4 +1,4 @@
-package org.techtown.drawer
+package org.techtown.movie
 
 import org.junit.Test
 

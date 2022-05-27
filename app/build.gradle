@@ -1,4 +1,4 @@
-plugins {
+ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
@@ -8,7 +8,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "org.techtown.drawer"
+        applicationId "org.techtown.movie"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
