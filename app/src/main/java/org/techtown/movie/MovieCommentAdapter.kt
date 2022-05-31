@@ -25,7 +25,6 @@ class MovieCommentAdapter : RecyclerView.Adapter<MovieCommentAdapter.ViewHolder>
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         init {
             itemView.setOnClickListener {
                 listener?.onItemClick(this, itemView, adapterPosition)
