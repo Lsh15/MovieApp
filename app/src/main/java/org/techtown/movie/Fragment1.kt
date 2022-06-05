@@ -13,6 +13,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.fragment_1.view.*
 import kotlinx.android.synthetic.main.fragment_2.view.*
+import org.techtown.movie.data.MovieList
+
 class Fragment1 : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,7 +29,8 @@ class Fragment1 : Fragment() {
             rootView.pager.offscreenPageLimit = 3
 
             rootView.indicator.setViewPager(rootView.pager);
-            rootView.indicator.createIndicators(3,0);
+//            rootView.indicator.createIndicators(3,0);
+            rootView.indicator.createIndicators(MovieList.data.size,0)
 
             rootView.pager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -47,46 +50,17 @@ class Fragment1 : Fragment() {
     inner class PagerAdapter : FragmentStateAdapter {
         constructor(fm: FragmentManager, lc: Lifecycle) : super(fm, lc)
 
-        override fun getItemCount() = 3
+        override fun getItemCount() = MovieList.data.size
 
         override fun createFragment(position: Int): Fragment {
-            var imageId:Int = 0
-            var title:String = ""
-            var details1:String = ""
-            var details2:String = ""
+            var movieData = MovieList.data[position]
+            var imageId:String = movieData.tmdbMovieResult?.poster_path?: ""
+            var title:String = movieData.movieInfo?.movieNm?: ""
+            var details1:String = movieData.movieInfo?.audiCnt?: ""
+            var details2:String = movieData.movieInfo?.showCnt?: ""
             var fragment:PageFragment? = null
 
-            when(position) {
-                0 -> {
-                    imageId = R.drawable.poster1
-                    title = "${position+1}. 결백"
-                    details1 = "관객수 312,745"
-                    details2 = "15세이상 관람가"
-
-                    fragment = PageFragment.newInstance(imageId, title, details1, details2)
-                }
-                1 -> {
-                    imageId = R.drawable.poster2
-                    title = "${position+1}. 침입자"
-                    details1 = "관객수 166,604"
-                    details2 = "15세이상 관람가"
-
-                    fragment = PageFragment.newInstance(imageId, title, details1, details2)
-                }
-                2 -> {
-                    imageId = R.drawable.poster3
-                    title = "${position+1}. 에어로너츠"
-                    details1 = "관객수 51,608"
-                    details2 = "12세이상 관람가"
-
-                    fragment = PageFragment.newInstance(imageId, title, details1, details2)
-                }
-                else -> {
-                    fragment = PageFragment.newInstance(0, "", "", "")
-                }
-            }
-
-            return fragment
+            return PageFragment.newInstance(position,imageId,title,details1,details2)
         }
 
     }

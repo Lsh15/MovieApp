@@ -20,10 +20,6 @@ class MainActivity : AppCompatActivity() {
         var requestQueue: RequestQueue? = null
     }
 
-    enum class FragmentItem {
-        ITEM1, ITEM2, ITEM3
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,11 +29,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val toggle = ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                toolbar,
-                R.string.drawer_open,
-                R.string.drawer_close
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.drawer_open,
+            R.string.drawer_close
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
@@ -46,23 +42,25 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId) {
                 R.id.item1 -> {
                     Toast.makeText(this, "첫번째 선택됨.", Toast.LENGTH_LONG).show()
-                    onFragmentSelected(FragmentItem.ITEM1, null)
+                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM1, null)
                 }
                 R.id.item2 -> {
                     Toast.makeText(this, "두번째 선택됨.", Toast.LENGTH_LONG).show()
-                    onFragmentSelected(FragmentItem.ITEM2, null)
+                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM2, null)
                 }
                 R.id.item3 -> {
                     Toast.makeText(this, "세번째 선택됨.", Toast.LENGTH_LONG).show()
-                    onFragmentSelected(FragmentItem.ITEM3, null)
+                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM3, null)
                 }
             }
 
             drawerLayout.closeDrawer(GravityCompat.START)
             return@setNavigationItemSelectedListener true
         }
+
+
         requestBoxOffice()
-//        supportFragmentManager.beginTransaction().add(R.id.container, Fragment1()).commit()
+        //supportFragmentManager.beginTransaction().add(R.id.container, Fragment1()).commit()
     }
 
     fun requestBoxOffice() {
@@ -148,7 +146,7 @@ class MainActivity : AppCompatActivity() {
         requestTMDBSearch(index, movieDetails)
     }
 
-    fun requestTMDBSearch(index:Int, movieDetails: MovieDetails) {
+    fun requestTMDBSearch(index:Int, movieDetails:MovieDetails) {
         var movieName = movieDetails.movieNm
         if (movieDetails.nations[0].nationNm != "한국") {
             movieName = movieDetails.movieNmEn
@@ -194,19 +192,20 @@ class MainActivity : AppCompatActivity() {
         //setPosterImage(index, movieResult.poster_path)
     }
 
+     fun onFragmentSelected(item: FragmentCallback.FragmentItem, bundle: Bundle?) {
+        val index = bundle?.getInt("index", 0)
 
-    fun onFragmentSelected(item:FragmentItem, bundle: Bundle?) {
         var fragment: Fragment
         when(item) {
-            FragmentItem.ITEM1 -> {
-                toolbar.title = "첫번째 화면"
+            FragmentCallback.FragmentItem.ITEM1 -> {
+                toolbar.title = "영화 목록"
                 fragment = Fragment1()
             }
-            FragmentItem.ITEM2 -> {
-                toolbar.title = "두번째 화면"
-                fragment = Fragment2()
+            FragmentCallback.FragmentItem.ITEM2 -> {
+                toolbar.title = "영화 상세"
+                fragment = Fragment2.newInstance(index)
             }
-            FragmentItem.ITEM3 -> {
+            FragmentCallback.FragmentItem.ITEM3 -> {
                 toolbar.title = "세번째 화면"
                 fragment = Fragment3()
             }
