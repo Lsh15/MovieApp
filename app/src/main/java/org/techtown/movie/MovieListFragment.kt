@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_1.view.*
 import kotlinx.android.synthetic.main.fragment_2.view.*
 import org.techtown.movie.data.MovieList
 
-class Fragment1 : Fragment() {
+class MovieListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_1, container, false)

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background1"
-    tools:context=".Fragment1">
+    tools:context=".MovieListFragment">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"

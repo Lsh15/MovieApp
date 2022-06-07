@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun requestBoxOffice() {
-        val apiKey = "430156241533f1d058c603178cc3ca0e"
+        val apiKey = "77130fcd02cfa15b611b773fa72da114"
         val targetDate = "20200615"
         val url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${apiKey}&targetDt=${targetDate}"
 
@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
 
     fun sendDetails(index:Int, movieCd:String?) {
         if (movieCd != null) {
-            val apiKey = "430156241533f1d058c603178cc3ca0e"
+            val apiKey = "77130fcd02cfa15b611b773fa72da114"
             val url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=${apiKey}&movieCd=${movieCd}"
 
             val request = object: StringRequest(
@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity() {
 
     fun sendTMDBSearch(index:Int, movieName:String?) {
         if (movieName != null) {
-            val apiKey = "ce151c672a74a33a36268882685ed88f"
+            val apiKey = "af539719f139a414013b429c8407e77c"
             val url = "https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${movieName}&language=ko-KR&page=1"
 
             val request = object: StringRequest(
@@ -204,7 +204,7 @@ class MainActivity : AppCompatActivity() {
         MovieList.data[index].tmdbMovieResult = movieResult
 
         // 화면에 프래그먼트 표시
-        supportFragmentManager.beginTransaction().add(R.id.container, Fragment1()).commit()
+        supportFragmentManager.beginTransaction().add(R.id.container, MovieListFragment()).commit()
         //setPosterImage(index, movieResult.poster_path)
     }
 
@@ -215,7 +215,7 @@ class MainActivity : AppCompatActivity() {
         when(item) {
             FragmentCallback.FragmentItem.ITEM1 -> {
                 toolbar.title = "영화 목록"
-                fragment = Fragment1()
+                fragment = MovieListFragment()
             }
             FragmentCallback.FragmentItem.ITEM2 -> {
                 toolbar.title = "영화 상세"
