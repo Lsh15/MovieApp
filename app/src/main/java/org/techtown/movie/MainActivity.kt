@@ -58,6 +58,22 @@ class MainActivity : AppCompatActivity() {
             return@setNavigationItemSelectedListener true
         }
 
+        bottom_navigation.selectedItemId = R.id.tab1
+        bottom_navigation.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.tab1 -> {
+                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM1,null)
+                }
+                R.id.tab2 -> {
+                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM2,null)
+                }
+                R.id.tab3 -> {
+                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM3,null)
+                }
+
+            }
+            return@setOnNavigationItemSelectedListener true
+        }
 
         requestBoxOffice()
         //supportFragmentManager.beginTransaction().add(R.id.container, Fragment1()).commit()
