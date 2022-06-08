@@ -26,5 +26,4 @@
         android:enabled="true"
         android:icon="@android:drawable/ic_menu_myplaces"
         android:title="즐겨찾기" />
-
 </menu>

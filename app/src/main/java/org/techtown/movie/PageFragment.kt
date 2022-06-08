@@ -56,7 +56,6 @@ class PageFragment : Fragment() {
 
         if (imageId != null && imageId!!.isNotEmpty()) {
             val url = "http://image.tmdb.org/t/p/w200${imageId}"
-
             Glide.with(this)
                 .load(url)
                 .centerCrop()
@@ -75,7 +74,7 @@ class PageFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putInt("index", index)
 
-                callback!!.onFragmentSelected(FragmentCallback.FragmentItem.ITEM2, bundle)
+                callback!!.onFragmentSelected(FragmentCallback.FragmentItem.ITEM_DETAILS, bundle)
             }
         }
 

@@ -41,16 +41,20 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.item1 -> {
-                    Toast.makeText(this, "첫번째 선택됨.", Toast.LENGTH_LONG).show()
-                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM1, null)
+                    Toast.makeText(this, "영화목록 선택됨.", Toast.LENGTH_LONG).show()
+                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM_LIST, null)
                 }
                 R.id.item2 -> {
-                    Toast.makeText(this, "두번째 선택됨.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "예매순 선택됨.", Toast.LENGTH_LONG).show()
                     onFragmentSelected(FragmentCallback.FragmentItem.ITEM2, null)
                 }
                 R.id.item3 -> {
-                    Toast.makeText(this, "세번째 선택됨.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this,"영화관 선택됨",Toast.LENGTH_LONG).show()
                     onFragmentSelected(FragmentCallback.FragmentItem.ITEM3, null)
+                }
+                R.id.item4 -> {
+                    Toast.makeText(this,"즐겨찾기 선택됨",Toast.LENGTH_LONG).show()
+                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM4, null)
                 }
             }
 
@@ -58,17 +62,22 @@ class MainActivity : AppCompatActivity() {
             return@setNavigationItemSelectedListener true
         }
 
+
+
         bottom_navigation.selectedItemId = R.id.tab1
         bottom_navigation.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.tab1 -> {
-                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM1,null)
+                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM_LIST,null)
                 }
                 R.id.tab2 -> {
                     onFragmentSelected(FragmentCallback.FragmentItem.ITEM2,null)
                 }
                 R.id.tab3 -> {
                     onFragmentSelected(FragmentCallback.FragmentItem.ITEM3,null)
+                }
+                R.id.tab4 -> {
+                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM4,null)
                 }
 
             }
@@ -81,7 +90,7 @@ class MainActivity : AppCompatActivity() {
 
     fun requestBoxOffice() {
         val apiKey = "77130fcd02cfa15b611b773fa72da114"
-        val targetDate = "20200615"
+        val targetDate = "20220101"
         val url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${apiKey}&targetDt=${targetDate}"
 
         val request = object: StringRequest(
@@ -213,17 +222,26 @@ class MainActivity : AppCompatActivity() {
 
         var fragment: Fragment
         when(item) {
-            FragmentCallback.FragmentItem.ITEM1 -> {
+            FragmentCallback.FragmentItem.ITEM_LIST -> {
                 toolbar.title = "영화 목록"
                 fragment = MovieListFragment()
             }
-            FragmentCallback.FragmentItem.ITEM2 -> {
+            FragmentCallback.FragmentItem.ITEM_DETAILS -> {
                 toolbar.title = "영화 상세"
-                fragment = Fragment2.newInstance(index)
+                fragment = MovieDetailsFragment()
+            //                fragment = MovieDetailsFragment.newInstance(index)
+            }
+            FragmentCallback.FragmentItem.ITEM2 -> {
+                toolbar.title = "예매순"
+                fragment = Fragment2()
             }
             FragmentCallback.FragmentItem.ITEM3 -> {
-                toolbar.title = "세번째 화면"
+                toolbar.title = "영화관"
                 fragment = Fragment3()
+            }
+            FragmentCallback.FragmentItem.ITEM4 -> {
+                toolbar.title = "즐겨찾기"
+                fragment = Fragment4()
             }
         }
 
