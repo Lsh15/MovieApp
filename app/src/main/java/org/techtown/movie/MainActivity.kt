@@ -14,7 +14,7 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import org.techtown.movie.data.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FragmentCallback {
 
     companion object {
         var requestQueue: RequestQueue? = null
@@ -41,20 +41,18 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.item1 -> {
-                    Toast.makeText(this, "영화목록 선택됨.", Toast.LENGTH_LONG).show()
-                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM_LIST, null)
+                    Toast.makeText(this, "첫번째 선택됨.", Toast.LENGTH_LONG).show()
+                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM1, null)
                 }
                 R.id.item2 -> {
-                    Toast.makeText(this, "예매순 선택됨.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "두번째 선택됨.", Toast.LENGTH_LONG).show()
+//                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM2, null)
                     onFragmentSelected(FragmentCallback.FragmentItem.ITEM2, null)
+
                 }
                 R.id.item3 -> {
-                    Toast.makeText(this,"영화관 선택됨",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "세번째 선택됨.", Toast.LENGTH_LONG).show()
                     onFragmentSelected(FragmentCallback.FragmentItem.ITEM3, null)
-                }
-                R.id.item4 -> {
-                    Toast.makeText(this,"즐겨찾기 선택됨",Toast.LENGTH_LONG).show()
-                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM4, null)
                 }
             }
 
@@ -63,33 +61,13 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
-        bottom_navigation.selectedItemId = R.id.tab1
-        bottom_navigation.setOnNavigationItemSelectedListener {
-            when(it.itemId){
-                R.id.tab1 -> {
-                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM_LIST,null)
-                }
-                R.id.tab2 -> {
-                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM2,null)
-                }
-                R.id.tab3 -> {
-                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM3,null)
-                }
-                R.id.tab4 -> {
-                    onFragmentSelected(FragmentCallback.FragmentItem.ITEM4,null)
-                }
-
-            }
-            return@setOnNavigationItemSelectedListener true
-        }
-
         requestBoxOffice()
         //supportFragmentManager.beginTransaction().add(R.id.container, Fragment1()).commit()
     }
 
     fun requestBoxOffice() {
         val apiKey = "77130fcd02cfa15b611b773fa72da114"
+//        val apiKey = "430156241533f1d058c603178cc3ca0e"
         val targetDate = "20220101"
         val url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${apiKey}&targetDt=${targetDate}"
 
@@ -139,6 +117,7 @@ class MainActivity : AppCompatActivity() {
     fun sendDetails(index:Int, movieCd:String?) {
         if (movieCd != null) {
             val apiKey = "77130fcd02cfa15b611b773fa72da114"
+//            val apiKey = "430156241533f1d058c603178cc3ca0e"
             val url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=${apiKey}&movieCd=${movieCd}"
 
             val request = object: StringRequest(
@@ -183,6 +162,7 @@ class MainActivity : AppCompatActivity() {
     fun sendTMDBSearch(index:Int, movieName:String?) {
         if (movieName != null) {
             val apiKey = "af539719f139a414013b429c8407e77c"
+//            val apiKey = "ce151c672a74a33a36268882685ed88f"
             val url = "https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${movieName}&language=ko-KR&page=1"
 
             val request = object: StringRequest(
@@ -217,31 +197,24 @@ class MainActivity : AppCompatActivity() {
         //setPosterImage(index, movieResult.poster_path)
     }
 
-     fun onFragmentSelected(item: FragmentCallback.FragmentItem, bundle: Bundle?) {
+
+
+    override fun onFragmentSelected(item: FragmentCallback.FragmentItem, bundle: Bundle?) {
         val index = bundle?.getInt("index", 0)
 
         var fragment: Fragment
         when(item) {
-            FragmentCallback.FragmentItem.ITEM_LIST -> {
+            FragmentCallback.FragmentItem.ITEM1 -> {
                 toolbar.title = "영화 목록"
                 fragment = MovieListFragment()
             }
-            FragmentCallback.FragmentItem.ITEM_DETAILS -> {
-                toolbar.title = "영화 상세"
-                fragment = MovieDetailsFragment()
-            //                fragment = MovieDetailsFragment.newInstance(index)
-            }
             FragmentCallback.FragmentItem.ITEM2 -> {
-                toolbar.title = "예매순"
-                fragment = Fragment2()
+                toolbar.title = "영화 상세"
+                fragment = MovieDetailsFragment.newInstance(index)
             }
             FragmentCallback.FragmentItem.ITEM3 -> {
-                toolbar.title = "영화관"
+                toolbar.title = "세번째 화면"
                 fragment = Fragment3()
-            }
-            FragmentCallback.FragmentItem.ITEM4 -> {
-                toolbar.title = "즐겨찾기"
-                fragment = Fragment4()
             }
         }
 

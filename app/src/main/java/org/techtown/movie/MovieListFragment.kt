@@ -20,32 +20,28 @@ class MovieListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_1, container, false)
 
-        activity?.run {
-            rootView.pager.adapter = PagerAdapter(supportFragmentManager,lifecycle)
-            rootView.pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        rootView.pager.adapter = PagerAdapter(activity!!.supportFragmentManager, activity!!.lifecycle)
+        rootView.pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-            rootView.pager.clipToPadding = false
-            rootView.pager.setPadding(150, 0, 150, 0)
-            rootView.pager.offscreenPageLimit = 3
+        rootView.pager.clipToPadding = false
+        rootView.pager.setPadding(150, 0, 150, 0)
+        rootView.pager.offscreenPageLimit = 3
 
-            rootView.indicator.setViewPager(rootView.pager);
-//            rootView.indicator.createIndicators(3,0);
-            rootView.indicator.createIndicators(MovieList.data.size,0)
+        rootView.indicator.setViewPager(rootView.pager);
+        rootView.indicator.createIndicators(MovieList.data.size,0);
 
-            rootView.pager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
+        rootView.pager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
 
-                    println("${position+1} 페이지 선택됨")
+                println("${position+1} 페이지 선택됨")
 
-                    rootView.indicator.animatePageSelected(position)
-                }
-            })
-        }
+                rootView.indicator.animatePageSelected(position)
+            }
+        })
 
         return rootView
     }
-
 
     inner class PagerAdapter : FragmentStateAdapter {
         constructor(fm: FragmentManager, lc: Lifecycle) : super(fm, lc)
@@ -53,15 +49,16 @@ class MovieListFragment : Fragment() {
         override fun getItemCount() = MovieList.data.size
 
         override fun createFragment(position: Int): Fragment {
-            var movieData = MovieList.data[position]
-            var imageId:String = movieData.tmdbMovieResult?.poster_path?: ""
-            var title:String = movieData.movieInfo?.movieNm?: ""
-            var details1:String = movieData.movieInfo?.audiCnt?: ""
-            var details2:String = movieData.movieInfo?.showCnt?: ""
-            var fragment:PageFragment? = null
+            val movieData = MovieList.data[position]
+            val imageId = movieData.tmdbMovieResult?.poster_path ?:""
+            val title = movieData.movieInfo?.movieNm ?:""
+            val details1 = movieData.movieInfo?.audiCnt ?:""
+            val details2 = movieData.movieDetails?.audits?.get(0)?.watchGradeNm ?:""
+            val fragment = PageFragment.newInstance(position, imageId, title, details1, details2)
 
-            return PageFragment.newInstance(position,imageId,title,details1,details2)
+            return fragment
         }
 
     }
+
 }

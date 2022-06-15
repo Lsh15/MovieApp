@@ -6,11 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import kotlinx.android.synthetic.main.fragment_2.view.*
 import kotlinx.android.synthetic.main.fragment_movie_details.view.*
+import kotlinx.android.synthetic.main.fragment_page.view.*
 import org.techtown.movie.data.MovieList
 
 class MovieDetailsFragment : Fragment() {
@@ -127,7 +128,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     companion object {
-        private const val TAG = "Fragment2"
+        private const val TAG = "MovieDetailsFragment"
 
         fun newInstance(index:Int?): MovieDetailsFragment {
             val fragment = MovieDetailsFragment()
